@@ -95,8 +95,11 @@ public static class CreditCardValidator
         foreach (int number in numberList)
         {
             numberLength = number.ToString().Length;
-            initalCreditCardDigits = int.Parse(creditCardNumber.Substring(0, numberLength));//Takes the initial digits of the credit card 
 
+            if (creditCardNumber.Length < numberLength) { continue; } //If the length of the credit card number is shorter than expected, those numbers will never be equal
+
+            initalCreditCardDigits = int.Parse(creditCardNumber.Substring(0, numberLength));//Takes the initial digits of the credit card 
+            
             if (initalCreditCardDigits == number)//Compares the inital digits of the credit card with each element of the list
             {
                 return true;
@@ -109,8 +112,11 @@ public static class CreditCardValidator
     private static bool StartsWithNumberInRange(string creditCardNumber, RangeNumber rangeNumber)
     {
         int numberLength = rangeNumber.MinValue.ToString().Length;
-        int initalCreditCardDigits = int.Parse(creditCardNumber[..numberLength]);
 
+        if (creditCardNumber.Length < numberLength) { return false; }//If the length of the credit card number is shorter than the minimum allowable length, then the credit card number is out of range
+
+        int initalCreditCardDigits = int.Parse(creditCardNumber[..numberLength]);//Takes the initial digits of the credit card 
+        
         //Checks if the initial digits of the credit card number are between a range
         return (initalCreditCardDigits >= rangeNumber.MinValue) && (initalCreditCardDigits <= rangeNumber.MaxValue);
     }
